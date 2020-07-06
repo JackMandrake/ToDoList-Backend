@@ -1,0 +1,102 @@
+/*Général*/
+main{
+    margin-top: 8rem;
+}
+
+/*Header*/
+header #nav_top{
+    background-color: #dfe6ed !important;
+
+}
+.navbar-brand{
+    font-size: 2rem;
+}
+header .navbar-collapse{
+    flex-grow: 0 !important;
+}
+header .nav-link{
+    border-color: black !important;
+    border-radius:4px;
+    margin:2px;
+    padding:3px;
+    display: inline-block;
+}
+
+.arch{
+    text-decoration: underline;
+}
+
+@media only screen and (min-width: 600px) {
+    .list_button{
+        display: flex;
+        justify-content: flex-end;
+        position: relative;
+        top: -45px;
+        list-style: none;
+    }
+    .list_button li{
+        margin: 0.5rem 1rem;
+    }
+    .progress{
+        position: relative;
+        top: -58px;
+    }
+}
+@media only screen and (max-width: 600px) {
+    .list_button{
+        list-style: none;
+        display: flex;
+        justify-content: flex-end;
+        font-size: 0.8rem;
+        position: relative;
+        top: -35px;
+    }
+    .list-group-item{
+        padding-bottom: 35px;
+    }
+    .list_button li{
+        margin: 0.2rem 0.5rem;
+    }
+    .progress{
+        position: relative;
+        top: -50px;
+    }
+}
+.list_button li a{
+    text-decoration: none;
+    color: black;
+}
+.progress-bar{
+    background-color:purple;
+}
+
+.list_button .fa-check-square{
+    background-color: lightgreen;
+    padding: 0.3rem;
+    border-radius: 5px;
+    color: white;
+}
+.list_button .fa-edit{
+    background-color: orange;
+    padding: 0.3rem;
+    border-radius: 5px;
+    color: white;
+}
+.list_button .fa-archive{
+    background-color: red;
+    padding: 0.3rem;
+    border-radius: 5px;
+    color: white;
+}
+#form_add{
+    margin-bottom: 5rem !important;
+}
+form button{
+    margin: 20px;
+}
+
+.button{
+    margin-top: 0.8rem !important;
+    margin-bottom: 0.8rem !important;
+
+}
