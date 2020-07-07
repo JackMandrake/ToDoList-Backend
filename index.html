@@ -274,16 +274,66 @@
             <div class="progress-bar__level" style="width:30%"></div>
           </div>
         </div>
+
+        <!-- Je met ici la tâche vide pour le template -->
+        <template id="taskcreate">
+          <div class="task task--todo" data-category="Courses">
+            <div class="task__content">
+              <div class="task__name">
+                <p class="task__name-display"></p>
+                <input id="name" class="task__name-edit input" type="text" value="" placeholder="Nom de la tâche"
+                  name="name" />
+              </div>
+              <div class="task__category">
+                <p class="input-category"></p>
+              </div>
+              <div class="task__buttons">
+                <button class="task__button task__button--incomplete button is-success is-small">
+                  <span class="icon is-small">
+                    <i class="fa fa-step-backward"></i>
+                  </span>
+                </button>
+                <button class="task__button task__button--desarchive button is-success is-small">
+                  <span class="icon is-small">
+                    <i class="fa fa-undo"></i>
+                  </span>
+                </button>
+                <button class="task__button task__button--validate button is-success is-small">
+                  <span class="icon is-small">
+                    <i class="fa fa-check-square-o"></i>
+                  </span>
+                </button>
+                <button class="task__button task__button--modify button is-warning is-small">
+                  <span class="icon is-small">
+                    <i class="fa fa-pencil-square-o"></i>
+                  </span>
+                </button>
+                <button class="task__button task__button--archive button is-danger is-small">
+                  <span class="icon is-small">
+                    <i class="fa fa-archive"></i>
+                  </span>
+                </button>
+                <button class="task__button task__button--delete button is-danger is-small">
+                  <span class="icon is-small">
+                    <i class="fa fa-trash"></i>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+      </template>
+          <!-- Fin de mon template -->
+
         <div class="task task--add">
           <form method="POST">
             <div class="task__content">
               <div class="task__name">
                 <p class="task__name-display"></p>
-                <input class="task__name-edit input" type="text" placeholder="Nom de la tâche" name="name" />
+                <input id="name_input" class="task__name-edit input" type="text" placeholder="Nom de la tâche" name="name_input" value=""/>
               </div>
               <div class="task__category">
                 <div class="select is-small">
-                  <select>
+                  <select id="select_input">
                     <option>Choisir une catégorie</option>
                     <option>Courses</option>
                     <option>O'Clock</option>
