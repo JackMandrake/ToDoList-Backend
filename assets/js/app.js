@@ -95,7 +95,6 @@ let app = {
         //document.querySelector('.tasks').appendChild(CloneTemplate); 
         //document.tasks.appendChild(CloneTemplate);
         
-        // FIN EXEMPLE
     },
 
     // METHODE POUR LES BOUTONS VALIDATE -> COMPLETE
