@@ -5,115 +5,71 @@ let app = {
 
         // On ajoute nos écouteurs d'évènements sur nos tâches
         app.bindTasksEvents();
+
+        // On ajoute un écouteur d'évènement pour l'ajout d'une tâche
+        app.bindAddTaskEvent();
+    },
+
+    bindAddTaskEvent: function() {
+        // On récupère l'élément form permettant d'ajouter une tâche
+        let addTaskFormElement = document.querySelector('.task--add form');
+        // console.log('addTaskFormElement : ',addTaskFormElement);
+
+        // On ajoute l'écouteur d'évènement pour la soumission du formulaire
+        addTaskFormElement.addEventListener('submit',app.handleAddTaskFormSubmit);
+    },
+
+    handleAddTaskFormSubmit: function(evt) {
+        console.log('handleAddTaskFormSubmit');
+
+        // On bloque le fonctionnement par défaut du formulaire
+        // pour éviter le rechargement de la page
+        evt.preventDefault();
+
+        // On crée l'élément correspondant à une nouvelle tâche à partir d'un template
+        let newTaskTemplateElement = document.getElementById('task-template');
+        console.log('newTaskTemplateElement : ',newTaskTemplateElement);
+        // On récupère l'intérieur du template puis on le duplique
+        let newTaskElement = newTaskTemplateElement.content.cloneNode(true);
+
+        console.log('newTaskElement : ',newTaskElement);
+
+        // On récupère le nom de la tâche à partir du champ input du form
+        let formElement = evt.currentTarget;
+        let newTaskValue = formElement.querySelector('.task__name-edit').value;
+
+        console.log('newTaskValue : ',newTaskValue);
+
+        // On vient préciser le nom de la tâche dans le clone de la tâche
+        newTaskElement.querySelector('.task__name-display').textContent = newTaskValue;
+        newTaskElement.querySelector('.task__name-edit').value = newTaskValue;
+
+        console.log('newTaskElement : ',newTaskElement);
+
+        // On vient préciser la catégorie dans le clone de la tâche
+        let newTaskCategoryValue = formElement.querySelector('.task__category select').value;
+        console.log('newTaskCategoryValue : ',newTaskCategoryValue);
+        // On utilise dataset : https://developer.mozilla.org/fr/docs/Web/API/HTMLElement/dataset
+        newTaskElement.querySelector('.task').dataset.category = newTaskCategoryValue;
+        newTaskElement.querySelector('.task__category p').textContent = newTaskCategoryValue;
+
+        // On ajoute notre nouvelle tâche dans le DOM
+        let tasksContainer = document.querySelector('.tasks');
+        // prepend permet de rajouter l'élément en tant que 1er fils
+        tasksContainer.prepend(newTaskElement);
     },
 
     // Méthode chargée d'ajouter les écouteurs d'évènements sur toutes les tâches
     bindTasksEvents: function () {
         // On doit d'abord récupérer l'ensemble des tâches
         // https://developer.mozilla.org/fr/docs/Web/API/Document/querySelectorAll
-        let existingTasks = document.querySelectorAll('.tasks .task');
+        // Avec le :not() on peut exclure certains éléments avec notre sélecteur
+        let existingTasks = document.querySelectorAll('.tasks .task:not(.task--add)');
 
         // On parcourt ensuite les tâches une par une
         for (let i = 0; i < existingTasks.length ; i++) {
             app.bindSingleTaskEvents(existingTasks[i]);
         }
-
-        //ECOUTE DES BOUTONS VALIDATE
-        // mise en place de l'écoute des "buttons validate" 
-        let buttonValidate = document.querySelectorAll('.task__button--validate');
-
-        // nous parcourons les tâches une par une
-        for (let i = 0; i < buttonValidate.length; ++i) {
-            app.bindButtonEvent(buttonValidate[i]);
-        }
-        console.log('Premier console.log' + buttonValidate);
-
-        // ECOUTE DU SUBMIT pour preventDefault
-        let formAdd = document.querySelector('.task--add');
-        formAdd.addEventListener('submit', app.handleAddTaskFormSubmit);
-
-        //ECOUTE DE L'INPUT "name_input"
-        let formInput = document.querySelector('#name_input');
-        formInput.addEventListener('onchange', app.handleAddTaskFormInput);
-
-        //ECOUTE DU SELECT "select_input"
-        let formInput = document.querySelector('#select_input');
-        formInput.addEventListener('onchange', app.handleAddTaskFormSelect);
-    },
-
-    handleAddTaskFormSelect: function(evt){
-        let FormInputSelect = document.getElementById('select_input');
-        let FormInputSelectValue = FormInputSelect.value;
-
-        CloneTemplate.getElementsByClassName('input-category').textContent = FormInputSelectValue;
-
-        document.querySelector('.tasks').appendChild(CloneTemplate); 
-    },
-
-    handleAddTaskFormInput: function(evt){
-        let FormInputName = document.querySelector('#name_input');
-        let FormInputValue = FormInputName.value;
-
-        
-
-        let templateToCreate = document.getElementById('taskcreate');
-
-        let CloneTemplate = templateToCreate.content.cloneNode(true);
-
-        CloneTemplate.getElementById('name_input').textContent = FormInputValue;
-
-
-        // ne reste plus qu'à ajouter ce 'record' à notre liste
-        document.querySelector('.tasks').appendChild(CloneTemplate); 
-    },
-
-    handleAddTaskFormSubmit: function(evt){
-        console.log('handleAddTaskFormSubmit');
-        
-        // Blocage du refraichissement de la page
-        evt.preventDefault();
-
-        //1) Créer template pour créer une tâche "vide"
-                // OK dans le HTML 
-        //2) utiliser js pour instancier cette template
-        //let templateToCreate = document.getElementById('taskcreate');
-
-        //let CloneTemplate = templateToCreate.content.cloneNode(true);
-        
-        //let FormInputName = document.querySelector('#name_input');
-
-        //let FormInputSelect = document.getElementById('select_input');
-
-        // il faut récupérer la valeur de l'écoute de l'input "name_imput"
-
-        
-        
-        //CloneTemplate.getElementById('name_input').textContent = FormInputValue;
-        //CloneTemplate.getElementsByClassName('input-category').textContent = FormInputSelectValue;
-
-        // ne reste plus qu'à ajouter ce 'record' à notre liste
-        //document.querySelector('.tasks').appendChild(CloneTemplate); 
-        //document.tasks.appendChild(CloneTemplate);
-        
-    },
-
-    // METHODE POUR LES BOUTONS VALIDATE -> COMPLETE
-    handleCompleteButtonClick: function(evt){
-        console.log('handleCompleteButtonClick');
-        // ici on veut ajouter à la div parente, la class : "task--complete"  afin d'avoir le visuel d'une tâche terminée
-        // pistes : classlist add et remove  et closest pour aller chercher le parent
-    
-        let buttonElement = evt.currentTarget;
-
-           let buttonValidateElement = buttonElement.closest('.task__content');
-        // let buttonValidateElement = buttonElement.querySelector('.task__buttons');
-        buttonValidateElement.classList.remove('task--todo');
-        buttonValidateElement.classList.add('task--complete'); 
-    },
-    
-    bindButtonEvent: function(evt){
-        evt.addEventListener('click',app.handleCompleteButtonClick);
-        
     },
 
     // Méthode chargée d'ajouter les écouteurs d'évènements sur une tâche à la fois
@@ -132,10 +88,37 @@ let app = {
         taskInputElement.addEventListener('blur',app.handleTaskTitle);
         // Et on ajoute également l'écouteur d'évènement sur la validation avec la touche Entrée
         taskInputElement.addEventListener('keydown',app.handleTaskTitleEnterKey);
-  
+
+        // On récupère le bouton permettant de compléter une tâche
+        let taskCompleteButtonElement = 
+            singleTaskElement.querySelector('.task__button--validate');
+
+        console.log('Task Complete Button : ',taskCompleteButtonElement);
+
+        // On ajoute l'écouteur d'évènement sur le bouton complete
+        taskCompleteButtonElement.addEventListener('click',app.handleCompleteButtonClick);
     },
 
-    
+    handleCompleteButtonClick: function(evt) {
+        console.log('handleCompleteButtonClick');
+
+        // On récupère le bouton à l'origine de l'évènement
+        let taskCompleteButtonElement = evt.currentTarget;
+        console.log(taskCompleteButtonElement);
+
+        // Pour changer l'affichage de la tâche, on a besoin de l'élément tâche
+        // https://developer.mozilla.org/fr/docs/Web/API/Element/closest
+        // closest va checher le premier ancêtre qui correspond au sélecteur fourni en argument
+        let taskElement = taskCompleteButtonElement.closest('.task');
+        console.log(taskElement);
+        // On maintenant modifier les classes de la tâche (taskElement)
+        // pour replace, on indique seulement le nom de la classe, sans le '.' car ici, on n'utilise
+        // pas de sélecteur css
+        taskElement.classList.replace('task--todo','task--complete');
+        // replace est l'équivalent des 2 instructions suivantes :
+        // taskElement.classList.remove('task--todo');
+        // taskElement.classList.add('task--complete');
+    },
 
     handleTaskTitleEnterKey: function(evt) {
         console.log('Je suis dans handleTaskTitleEnterKey');
@@ -191,13 +174,7 @@ let app = {
         let taskInputElement = taskElement.querySelector('.task__name-edit');
         // https://developer.mozilla.org/fr/docs/Web/API/HTMLElement/focus
         taskInputElement.focus();
-    },
-
-
-
-
-
-
+    }
 };
 
 document.addEventListener('DOMContentLoaded',app.init);
