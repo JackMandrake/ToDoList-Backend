@@ -26,22 +26,21 @@
           <button class="filters__choice button">Incomplètes</button>
         </div>
         <div class="filters__task filters__task--category select is-small">
-          <select id="categorieslist1" class="filters__choice">
-            <!-- <option>Toutes les catégories</option>
+          <!--<select class="filters__choice">
+            <option>Toutes les catégories</option>
             <option>Courses</option>
             <option>O'Clock</option>
-            <option>Projet Professionnel</option> -->
-          </select>
+            <option>Projet Professionnel</option>
+          </select>-->
         </div>
         <div class="filters__task filters__task--archived">
           <a class="filters__choice" href="#">Voir les archives</a>
         </div>
       </div>
     </header>
-    <!-- FIN HEADER et NAV-->
     <main>
       <div class="tasks">
-<!--         <div class="task task--todo" data-category="Courses">
+        <!--<div class="task task--todo" data-category="Courses">
           <div class="task__content">
             <div class="task__name">
               <p class="task__name-display">Acheter du pain</p>
@@ -274,11 +273,7 @@
           <div class="progress-bar">
             <div class="progress-bar__level" style="width:30%"></div>
           </div>
-        </div>
- -->
-          <!--  FORMULAIRE AJOUT  -->
-
-        
+        </div>-->
         <div class="task task--add">
           <form method="POST">
             <div class="task__content">
@@ -288,12 +283,12 @@
               </div>
               <div class="task__category">
                 <div class="select is-small">
-                  <select id="categorieslist">
-                    <!-- <option>Choisir une catégorie</option>
+                  <!-- <select>
+                    <option>Choisir une catégorie</option>
                     <option>Courses</option>
                     <option>O'Clock</option>
-                    <option>Projet Professionnel</option> -->
-                  </select>
+                    <option>Projet Professionnel</option>
+                  </select> -->
                 </div>
               </div>
               <div class="task__buttons">
@@ -311,7 +306,6 @@
     </main>
   </div>
 
-<!-- TEMPLATE -->
   <!-- La balise template contient un modèle de tâche : celui-ci va nous servir
   lorsqu'on voudra ajouter une nouvelle tâche (on pourra la copier-coller 
   depuis notre code javascript -->
@@ -366,8 +360,9 @@
   </template>
   
   <script src="./assets/js/handler.js"></script>
+  <script src="./assets/js/task.js"></script>
+  <script src="./assets/js/category.js"></script>
   <script src="./assets/js/app.js"></script>
-  <script src="./assets/js/api.js"></script>
 </body>
 
 </html>

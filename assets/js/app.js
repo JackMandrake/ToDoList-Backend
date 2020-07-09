@@ -1,13 +1,26 @@
 let app = {
+    apiRootUrl: 'https://benoclock.github.io/S07-todolist',
     
     init: function() {
         console.log('Méthode init');
 
         // On ajoute nos écouteurs d'évènements sur nos tâches
-        app.bindTasksEvents();
+        // app.bindTasksEvents();
+        // cet appel est obsolète maintenant que nous chargeons les tâches depuis l'API
 
         // On ajoute un écouteur d'évènement pour l'ajout d'une tâche
         app.bindAddTaskEvent();
+
+        // On charge les tâches
+        // task.loadTasks();
+        // si on charge les tâches à ce moment là, et qu'on charge juste derrière les catégories,
+        // alétoirement, on aura soit les catégories chargées avant les tâches
+        // soit les tâches chargées avant les catégories
+        // à cause de l'asynchronisme d'Ajax (on ne sait jamais quand la réponse va arriver et une fois
+        // la requête ajax lancée, on continue pendant ce temps à exécuter le code situé après la requête)
+
+        // On charge les catégories
+        category.loadCategories();
     },
 
     bindAddTaskEvent: function() {

@@ -13,40 +13,15 @@ let handler = {
         // pour éviter le rechargement de la page
         evt.preventDefault();
 
-        // On crée l'élément correspondant à une nouvelle tâche à partir d'un template
-        let newTaskTemplateElement = document.getElementById('task-template');
-        console.log('newTaskTemplateElement : ',newTaskTemplateElement);
-        // On récupère l'intérieur du template puis on le duplique
-        let newTaskElement = newTaskTemplateElement.content.cloneNode(true);
-
-        console.log('newTaskElement : ',newTaskElement);
-
         // On récupère le nom de la tâche à partir du champ input du form
         let formElement = evt.currentTarget;
-        let newTaskValue = formElement.querySelector('.task__name-edit').value;
-
-        console.log('newTaskValue : ',newTaskValue);
-
-        // On vient préciser le nom de la tâche dans le clone de la tâche
-        newTaskElement.querySelector('.task__name-display').textContent = newTaskValue;
-        newTaskElement.querySelector('.task__name-edit').value = newTaskValue;
-
-        console.log('newTaskElement : ',newTaskElement);
+        let newTaskTitle = formElement.querySelector('.task__name-edit').value;
 
         // On vient préciser la catégorie dans le clone de la tâche
-        let newTaskCategoryValue = formElement.querySelector('.task__category select').value;
-        console.log('newTaskCategoryValue : ',newTaskCategoryValue);
-        // On utilise dataset : https://developer.mozilla.org/fr/docs/Web/API/HTMLElement/dataset
-        newTaskElement.querySelector('.task').dataset.category = newTaskCategoryValue;
-        newTaskElement.querySelector('.task__category p').textContent = newTaskCategoryValue;
+        let newTaskCategoryName = formElement.querySelector('.task__category select').value;
 
-        // On ajoute les écouteurs d'évènements sur cette tâche
-        app.bindSingleTaskEvents(newTaskElement);
-
-        // On ajoute notre nouvelle tâche dans le DOM
-        let tasksContainer = document.querySelector('.tasks');
-        // prepend permet de rajouter l'élément en tant que 1er fils
-        tasksContainer.prepend(newTaskElement);
+        // On demande la création de la tâche dans le DOM
+        task.createNewTask(newTaskTitle,newTaskCategoryName);
     },
 
     /**
