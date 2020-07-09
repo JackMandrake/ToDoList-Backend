@@ -14,7 +14,20 @@
 $router->get(
     '/',
     [
+        // NomDuControleur@NomDeLaMéthode
         'uses' => 'MainController@home',
+        // nom-de-la-route
         'as'   => 'main-home'
     ]
 );
+
+$router->get(
+    '/categories',
+    [
+        // NomDuControleur@NomDeLaMéthode
+        'uses' => 'CategoryController@list',
+        // nom-de-la-route
+        'as'   => 'category-list'
+    ]
+);
+
