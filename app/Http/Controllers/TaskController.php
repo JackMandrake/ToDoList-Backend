@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Http\Request;
 use App\Models\Task;
 
 class TaskController extends Controller {
@@ -28,17 +29,7 @@ class TaskController extends Controller {
     public function item($id) {
 
         $tasksList = [
-/*
-id;title;completion;status;created_at;updated_at;category_id
-1;Passer les tests du chemin vers O'clock;100;2;2020-07-10 11:26:49;;1
-2;Contacter Pole Emploi;100;2;2020-07-10 11:26:49;;1
-3;Acheter du pain;0;1;2020-07-10 11:26:49;;2
-4;Survivre à la première saison;100;1;2020-07-10 11:26:49;;3
-5;Maitriser les bases de la programmation informatique;100;1;2020-07-10 11:26:49;;3
-6;Rédiger mes dossiers de Titre Professionnel;0;1;2020-07-10 11:26:49;;4
-7;Présenter mon projet au jury bienveillant;0;1;2020-07-10 11:26:49;;4
-8;Mon premier MCD;100;1;2020-07-10 11:26:49;;3
-*/
+
             1 => [
                 'id' => 1,
                 'title' => 'Passer les tests du chemin vers O\'clock',
@@ -118,4 +109,52 @@ id;title;completion;status;created_at;updated_at;category_id
             abort(404);
         }
     }
+
+    public function create(Request $request) {
+
+        /* $validatedData = $request->validate([
+            'title' => 'required|max:255',
+            'category_id' => 'required',
+        ]); */
+        
+        // Récupération des données envoyés en POST
+        // $title = $request->input('title');
+        // $categoryId = $request->input('category_id');
+
+        // Nouvel Objet pour la classe Task
+        $newTask = new Task;
+
+         // Modifier les propriétés de cet objet
+        $newTask->title = $request->title;
+        $newTask->category_id = $request->categoryId;
+
+        $newTask->save();
+
+
+
+        //return response()->json(['title' => $title], ['categories' => $categoryId]);
+
+        /* if ($validatedData) { */
+            // Si l'ajout à fonctionner HTTP201
+            if ($newTask->save()) {
+                // On récupère la catégorie à retourner
+                $taskToCreate = $newTask;
+                // On retourne la réponse au format JSON
+                return response()->json($taskToCreate);
+            }
+            // Sinon HTTP500
+            else {
+                // On pourrait rediriger vers l'accueil
+                // return redirect()->route('main-home');
+                // Ou rediriger vers la catégorie n°1
+                // return redirect()->route('category-item', ['id' => 1]);
+
+                // Mais le mieux dans ce cas, c'est de générer une 404
+                Log::info('Erreur 500 pour create la task : ');
+                abort(404);
+            }
+       // }
+    }
+
+
 }

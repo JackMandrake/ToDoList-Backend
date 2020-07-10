@@ -29,4 +29,28 @@ class Controller extends BaseController
         // Return response, with headers
         return response('', $httpStatusCode);
     }
+
+    /**
+     * Provide a centralized empty response, with httpStatusCode, to all Controllers
+     *
+     * @param integer $httpStatusCode
+     * @return void
+     */
+    protected function createEmptyResponse($httpStatusCode=Response::HTTP_INTERNAL_SERVER_ERROR) {
+        // Return response, with headers
+        return response('', $httpStatusCode);
+    }
+
+    /**
+     * Provide a centralized display of a JSON, with httpStatusCode, to all Controllers
+     *
+     * @param mixed $data
+     * @param integer $httpStatusCode
+     * @return void
+     */
+    protected function createJsonResponse($data, $httpStatusCode=Response::HTTP_CREATED) {
+        // Return response, with headers
+        return response()->json($data, $httpStatusCode);
+    }
+
 }

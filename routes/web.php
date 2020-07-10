@@ -11,6 +11,8 @@
 |
 */
 
+// HOME
+
 $router->get(
     '/',
     [
@@ -20,6 +22,8 @@ $router->get(
         'as'   => 'main-home'
     ]
 );
+
+// LECTURE DES CATEGORIES
 
 $router->get(
     '/categories',
@@ -39,6 +43,8 @@ $router->get(
     ]
 );
 
+// LECTURE DES TASKS
+
 $router->get(
     '/tasks',
     [
@@ -54,5 +60,15 @@ $router->get(
     [
         'uses' => 'TaskController@item',
         'as'   => 'task-item'
+    ]
+);
+
+// CREATION DES TASKS
+
+$router->post(
+    '/tasks',
+    [
+        'uses' => 'TaskController@create',
+        'as'   => 'task-create'
     ]
 );
