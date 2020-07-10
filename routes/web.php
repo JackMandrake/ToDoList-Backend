@@ -31,3 +31,10 @@ $router->get(
     ]
 );
 
+$router->get(
+    '/categories/{id}',
+    [
+        'uses' => 'CategoryController@item',
+        'as'   => 'category-item'
+    ]
+);
