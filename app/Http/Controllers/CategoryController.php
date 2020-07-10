@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Log;
+use Illuminate\Support\Facades\Log;
 
 class CategoryController  extends Controller {
 
