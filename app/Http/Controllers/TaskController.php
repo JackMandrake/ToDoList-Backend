@@ -176,7 +176,7 @@ class TaskController extends Controller {
             abort(Response::HTTP_BAD_REQUEST);
         }
     }
- /**
+  /**
      * HTTP Method : PUT
      * URL : /tasks/{id}
      */
@@ -192,37 +192,75 @@ class TaskController extends Controller {
         // mais on peut aussi utiliser findOrFail puisque si le modèle n'est pas trouvé
         // on nous demande de générer une 404, c'est exactement ce que fait findOrFail
         // attention potentiellement, la ligne ci-dessous peut générer une 404
+        // et quitter immédiatement la méthode update
         $task = Task::findOrFail($id);
 
-        if ($request->has(['title', 'categoryId', 'completion', 'status'])) {
-            // Si les 4 informations sont présentes
-            // on peut mettre à jour l'objet Task
-            $task->title = $request->input('title');
-            $task->category_id = $request->input('categoryId');
-            $task->completion = $request->input('completion');
-            $task->status = $request->input('status');
+        // Récupérer toutes les données envoyées en PATCH
+        if ($request->isMethod('patch')) {
 
-            // On valide les modifications dans la BDD
-            $isUpdated = $task->save();
+            // On stocke dans une variable le fait qu'il y ait au moins une donnée
+            // disponible
+            $oneDataAtLeast = false;
 
-            // Si la modification a fonctionné
-            if ($isUpdated) {
-                // alors retourner un code de réponse HTTP 200 "OK" (aide plus bas)
-                return $this->sendEmptyResponse();
-                // on aurait pu également retourner un code HTTP 204 (méthode PUT qui ne retourne aucune réponse)
-                // return $this->sendEmptyResponse(204);
-                // return $this->sendEmptyResponse(Response::HTTP_NO_CONTENT);
-            } else {
-                // alors retourner un code de réponse HTTP 500 "Internal Server Error"
-                abort(500);
+            if ($request->has('title')) {
+                $task->title = $request->input('title');
+                $oneDataAtLeast = true;
             }
+            if ($request->has('categoryId')) {
+                $task->category_id = $request->input('categoryId');
+                $oneDataAtLeast = true;
+            }
+            if ($request->has('completion')) {
+                $task->completion = $request->input('completion');
+                $oneDataAtLeast = true;
+            }
+            if ($request->has('status')) {
+                $task->status = $request->input('status');
+                $oneDataAtLeast = true;
+            }
+
+            // Si je n'ai pas au moins une donnée en entrée
+            // if ($oneDataAtLeast === false) {
+            if (!$oneDataAtLeast) {
+                // Bad request code 400
+                abort(Response::HTTP_BAD_REQUEST);
+            }
+        }
+        // Récupérer toutes les données envoyées en PUT
+        else {
+            if ($request->has(['title', 'categoryId', 'completion', 'status'])) {
+                // Si les 4 informations sont présentes
+                // on peut mettre à jour l'objet Task
+                $task->title = $request->input('title');
+                $task->category_id = $request->input('categoryId');
+                $task->completion = $request->input('completion');
+                $task->status = $request->input('status');
+            } else {
+                // Si on n'a pas envoyé les informations nécessaires pour la mise
+                // à jour de la tâche
+                // alors retourner un code de réponse HTTP 400 "Bad request"
+                // https://restfulapi.net/http-status-codes/
+                // abort(400);
+                abort(Response::HTTP_BAD_REQUEST);
+            }
+        }
+
+        // Une fois qu'a récupéré les données en PUT ou en PATCH
+        // on fait la même pour l'un et pour l'autre donc on met ça après le if/else précédent
+
+        // On valide les modifications dans la BDD
+        $isUpdated = $task->save();
+
+        // Si la modification a fonctionné
+        if ($isUpdated) {
+            // alors retourner un code de réponse HTTP 200 "OK" (aide plus bas)
+            return $this->sendEmptyResponse();
+            // on aurait pu également retourner un code HTTP 204 (méthode PUT qui ne retourne aucune réponse)
+            // return $this->sendEmptyResponse(204);
+            // return $this->sendEmptyResponse(Response::HTTP_NO_CONTENT);
         } else {
-            // Si on n'a pas envoyé les informations nécessaires pour la mise
-            // à jour de la tâche
-            // alors retourner un code de réponse HTTP 400 "Bad request"
-            // https://restfulapi.net/http-status-codes/
-            // abort(400);
-            abort(Response::HTTP_BAD_REQUEST);
+            // alors retourner un code de réponse HTTP 500 "Internal Server Error"
+            abort(500);
         }
     }
 }

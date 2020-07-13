@@ -72,3 +72,23 @@ $router->post(
         'as'   => 'task-add'
     ]
 );
+
+$router->put(
+    '/tasks/{id}',
+    [
+        // NomDuControleur@NomDeLaMéthode
+        'uses' => 'TaskController@update',
+        // nom-de-la-route
+        'as'   => 'task-update'
+    ]
+);
+
+$router->patch(
+    '/tasks/{id}',
+    [
+        // NomDuControleur@NomDeLaMéthode
+        'uses' => 'TaskController@update',
+        // nom-de-la-route
+        'as'   => 'task-patch'
+    ]
+);
